@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4dtd6wi5xfrp"]
+
+[ext_resource type="Script" path="res://scripts/RTSCam.cs" id="1_vh35t"]
+
+[node name="camera_base" type="Node3D" node_paths=PackedStringArray("camera")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.2383)
+script = ExtResource("1_vh35t")
+cameraZoomSpeed = 33.0
+cameraZoomMax = 30.0
+camera = NodePath("camera_socket/camera")
+
+[node name="camera_socket" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 3, 0)
+
+[node name="camera" type="Camera3D" parent="camera_socket"]
