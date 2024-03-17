@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://reyb3xlk2l6q"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_gyc0w"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_1itny"]
+
+[node name="unit_barracks" type="MeshInstance3D"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 6, -0.148, 2, 0)
+mesh = SubResource("BoxMesh_gyc0w")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, -0.25, 0.5, 0)
+mesh = SubResource("CylinderMesh_1itny")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0.25, 0.5, 0)
+mesh = SubResource("CylinderMesh_1itny")

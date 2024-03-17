@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://mdq0vuq4jarw"]
+
+[ext_resource type="PackedScene" uid="uid://kgtyf567fqou" path="res://assets/models/unit_barracks.glb" id="1_hsodq"]
+
+[node name="unit_barracks" instance=ExtResource("1_hsodq")]
+
+[node name="Plane" parent="." index="0"]
+visible = false

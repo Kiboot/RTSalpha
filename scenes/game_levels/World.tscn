@@ -1,0 +1,52 @@
+[gd_scene load_steps=11 format=3 uid="uid://drg1pt5o6x6q5"]
+
+[ext_resource type="Script" path="res://scenes/game_levels/World.cs" id="1_oejjn"]
+[ext_resource type="PackedScene" uid="uid://c4dtd6wi5xfrp" path="res://scenes/object_instances/functional/camera_base.tscn" id="1_ts0uf"]
+[ext_resource type="PackedScene" uid="uid://dibk3orxu0pe0" path="res://scenes/object_instances/game/unit_t90ms.tscn" id="2_tgfme"]
+[ext_resource type="PackedScene" uid="uid://reyb3xlk2l6q" path="res://scenes/object_instances/game/unit_barracks.tscn" id="3_1wi8e"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_x2x55"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_e35jh"]
+sky_material = SubResource("ProceduralSkyMaterial_x2x55")
+
+[sub_resource type="Environment" id="Environment_xwv4c"]
+background_mode = 2
+sky = SubResource("Sky_e35jh")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ml13k"]
+albedo_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_w57im"]
+size = Vector2(100, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nnv4q"]
+albedo_color = Color(0.490196, 0, 0.0705882, 1)
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_oejjn")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_xwv4c")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Terrain" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.341303, 0)
+material_override = SubResource("StandardMaterial3D_ml13k")
+mesh = SubResource("PlaneMesh_w57im")
+
+[node name="camera_base" parent="." instance=ExtResource("1_ts0uf")]
+
+[node name="unit_t90" parent="." instance=ExtResource("2_tgfme")]
+transform = Transform3D(0.021, 0, 0, 0, 0.021, 0, 0, 0, 0.021, -1.97909, -0.664585, 2.35075)
+
+[node name="unit_barracks" parent="." instance=ExtResource("3_1wi8e")]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 6, -0.5, 1.7, -2)
+material_override = SubResource("StandardMaterial3D_nnv4q")
