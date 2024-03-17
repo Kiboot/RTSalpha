@@ -5,6 +5,7 @@
 [node name="camera_base" type="Node3D" node_paths=PackedStringArray("camSkt", "cam")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.2383)
 script = ExtResource("1_vh35t")
+camBaseRotSpd = 15.0
 camSkt = NodePath("camera_socket")
 cam = NodePath("camera_socket/camera")
 

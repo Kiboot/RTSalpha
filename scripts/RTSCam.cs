@@ -7,7 +7,7 @@ public partial class RTSCam : Node3D
 	int cameraRotationDirection = 0;
 	[Export(PropertyHint.Range, "0,10,.1")] float camRotSpd = .20f;
 	[Export(PropertyHint.Range, "0,20,1")] float camBaseRotSpd = 6f;
-	[Export(PropertyHint.Range, "0,10,1")] float camSktRotXMin = -1.20f;
+	[Export(PropertyHint.Range, "0,10,1")] float camSktRotXMin = -1.30f;
 	[Export(PropertyHint.Range, "0,10,1")] float camSktRotXMax = -.20f;
 	//Camera Movement
 	[Export(PropertyHint.Range, "0,100,1")] public float camMvSpd = 20.0f;
@@ -42,10 +42,7 @@ public partial class RTSCam : Node3D
 	
 
 	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-
-	}
+	public override void _Ready(){}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -73,12 +70,11 @@ public partial class RTSCam : Node3D
 		else if(@event.IsActionReleased("rotate_cam")){camIsRotMouse = false;}
 
 	}
-
+	//---------------------------------- PART 2 START ----------------------------------
 	//Moves the base of the camera with WASD
 	public void cameraBaseMove(double delta){	
 		if (!camCanMvBase){return;}
 		Vector3 velocityDirection = Vector3.Zero;
-
 		if (Input.IsActionPressed("forward")){velocityDirection -= Transform.Basis.Z;}
 		if (Input.IsActionPressed("backward")){velocityDirection += Transform.Basis.Z;}
 		if (Input.IsActionPressed("right")){velocityDirection += Transform.Basis.X;}
@@ -90,10 +86,7 @@ public partial class RTSCam : Node3D
 		position.Y = position.Y *  (float)(delta * camMvSpd);
 		position.Z = position.Z *  (float)(delta * camMvSpd);
 		Position += position;
-		//Position += velocityDirection.Normalized() * delta * cameraMoveSpeed;
-		//GD.Print(velocityDirection);
 	}
-
 	//Controls the zoom of the camera
 	public void cameraZoomUpdate(double delta){
 		if (!camCanZoom){return;}
@@ -104,8 +97,9 @@ public partial class RTSCam : Node3D
 		cam.Position = camPos;
 		//note end
 		camZoomDir *= camZoomSpdDamp;
-
 	}
+	//------------------------------------ PART 2 END ------------------------------------
+
 	//Rotates the camera socket based on the mouse offset
 	public void cameraRotateToMouseOffsets(double delta){
 		if (!camCanRotByMouseOffset || !camIsRotMouse){return;}
@@ -114,35 +108,30 @@ public partial class RTSCam : Node3D
 		mouseLastPos = GetViewport().GetMousePosition();
 		cameraBaseRotateLR(delta, mouseOffset.X);
 		cameraSocketRotateX(delta, mouseOffset.Y);
-		
 	}
+
 	//Rotates the camera base
 	public void cameraBaseRotate(double delta){
 		if (!camCanRot || !camIsRotBase){return;}
-
 		cameraBaseRotateLR(delta, cameraRotationDirection * camRotSpd);
 	}
 	//Rotate the socket of the camera using mouse
 	public void cameraSocketRotateX(double delta, float dir){
 		if (!camCanRotSktX){return;}
-		float newRotationX = camRotSpd;
+		float newRotationX = camSkt.Rotation.X;
 		newRotationX -= dir * (float)delta * camRotSpd;
-		//using try to stamp out errors caused by RotationMin getting to more than RotationMax
 		newRotationX = Mathf.Clamp(newRotationX, camSktRotXMin, camSktRotXMax);
-			//newRotationX =
 		Vector3 cameraSocketRotation = camSkt.Rotation;
 		cameraSocketRotation.X = newRotationX;
 		camSkt.Rotation = cameraSocketRotation;
 	}
-
-	
 	//Rotates the camera base from left to right
 	public void cameraBaseRotateLR(double delta, float dir){
 		Vector3 rotation = Rotation;
 		rotation.Y += dir * (float)delta * camRotSpd * camBaseRotSpd;
 		Rotation = rotation;
 	}
-	//Enables Window edge panning
+		//Enables Window edge panning
 	public void cameraAutoPan(double delta){
 		if(!camCanAutoPan){return;}
 		Viewport viewportCurrent = GetViewport();
@@ -155,18 +144,12 @@ public partial class RTSCam : Node3D
 
 		//X pan
 		if((mousePosition.X < margin) || (mousePosition.X > (viewportSize.X - margin))){
-
-			if (mousePosition.X > (viewportSize.X/2)){
-				panDirection.X = 1;
-			}
+			if ( mousePosition.X > (viewportSize.X/2) ){ panDirection.X = 1; }
 			Translate(new Vector3(panDirection.X * (float)delta *camAutoPanSpd , 0 , 0));
 		}
 		//Y pan
-				if((mousePosition.Y < margin) || (mousePosition.Y > (viewportSize.Y - margin))){
-
-			if (mousePosition.Y > (viewportSize.Y/2)){
-				panDirection.Y = 1;
-			}
+		if((mousePosition.Y < margin) || (mousePosition.Y > (viewportSize.Y - margin))){
+			if ( mousePosition.Y > (viewportSize.Y/2) ){panDirection.Y = 1;}
 			Translate(new Vector3(0, 0,panDirection.Y * (float)delta *camAutoPanSpd * zoomFactorZ));	
 		}
 	}
