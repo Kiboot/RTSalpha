@@ -15,6 +15,11 @@ run/main_scene="res://scenes/game_levels/World.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://assets/images/icon.svg"
 
+[autoload]
+
+BuildManager="*res://scripts/functional/BuildManager.cs"
+GameManager="*res://scripts/functional/GameManager.cs"
+
 [dotnet]
 
 project/assembly_name="RTSalpha"
